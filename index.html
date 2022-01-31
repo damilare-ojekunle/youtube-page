@@ -8,6 +8,38 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div class="container"></div>
+    <div id="app">
+      <div class="cart">
+        <p>Cart{{cart}}</p>
+      </div>
+      <product
+        :premuim="premuim"
+        @add-to-cart="addCart"
+        @remove-cart="removeCart"
+      >
+      </product>
+
+      <product-tabs :reviews="reviews"> </product-tabs>
+
+      <!-- <div>
+        <h1>Result</h1>
+        <ul>
+          <li v-for="form in forms">
+            <p>{{form.firstname}}</p>
+            <p>{{form.lastname}}</p>
+            <p>{{form.date}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="registration">
+        <product-registration
+          @register-form="registerForm"
+        ></product-registration>
+      </div> -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="main.js"></script>
   </body>
 </html>
