@@ -1,3 +1,4 @@
+var eventBus = new Vue();
 Vue.component("product", {
   props: ["premuim"],
   template: `
@@ -104,7 +105,7 @@ Vue.component("product-review", {
         review: this.review,
         rating: this.rating,
       };
-      this.$emit("review-submitted", productReview);
+      eventBus.$emit("review-submitted", productReview);
       this.name = null;
       this.review = null;
       this.rating = null;
@@ -163,8 +164,20 @@ Vue.component("product-tabs", {
   template: `
   <div>
   <span class="tab" :class="{activeTab:selectedTab === tab}" v-for="(tab,index) in tabs" :key="index" @click="selectedTab = tab">{{tab}}</span>
-  
-  </div>
+  <div v-show="selectedTab === 'Reviews'">
+      
+        <p v-if="!reviews.length ">There are no reviews yet</p>
+        <ul>
+          <li v-for="review in reviews">
+            <p>{{review.name}}</p>
+            <p>{{review.rating}}</p>
+
+            <p>{{review.review}}</p>
+          </li>
+        </ul>
+        <product-review v-show="selectedTab === 'Make a review'" ></product-review>
+      </div>
+  </div>1
   `,
   data() {
     return {
@@ -188,11 +201,14 @@ var app = new Vue({
     removeCart() {
       this.cart -= 1;
     },
-    addReview(productReview) {
-      this.reviews.push(productReview);
-    },
+
     registerForm(registration) {
       this.forms.push(registration);
     },
+  },
+  mounted() {
+    eventBus.$on("review-submitted", (productReview) => {
+      this.reviews.push(productReview);
+    });
   },
 });
